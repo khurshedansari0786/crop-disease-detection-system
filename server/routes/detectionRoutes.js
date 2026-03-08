@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.json({ message: "Detection Route Working" });
-});
+const { protect } = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
+const { uploadAndDetect } = require("../controllers/detectionController");
+
+router.post("/", protect, upload.single("image"), uploadAndDetect);
 
 module.exports = router;
